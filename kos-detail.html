@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kosan Hub - Detail Kos Anu</title>
+    <link rel="stylesheet" href="kos-detail.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="image/Screenshot_2025-03-18_010824-removebg-preview.png" alt="Kosan Hub Logo">
+            </div>
+            <div class="breadcrumb">
+                <a href="search-result.html">Dekat UNM</a>
+                <span>></span>
+                <span>Kos Anu</span>
+            </div>
+        </nav>
+
+        <div class="image-gallery">
+            <div class="main-image">
+                <img src="image/kos 1.jpg" alt="Dapur" id="mainImage">
+                <button class="nav-btn prev" onclick="changeImage(-1)">❮</button>
+                <button class="nav-btn next" onclick="changeImage(1)">❯</button>
+            </div>
+            <div class="thumbnail-container">
+                <img src="image/dapur 1.jpg" alt="Dapur" class="thumbnail active" onclick="setImage(0)">
+                <img src="image/parkir 1.jpg" alt="Parkiran" class="thumbnail" onclick="setImage(1)">
+                <img src="image/dao-vi-t-hoang-c1T5BbJe3qw-unsplash.jpg" alt="Taman" class="thumbnail" onclick="setImage(2)">
+                <img src="image/wc 1.jpg" alt="Kamar Mandi" class="thumbnail" onclick="setImage(3)">
+            </div>
+        </div>
+
+        <div class="kos-info">
+            <div class="price-section">
+                <h1>Rp 1.000.000</h1>
+                <div class="action-buttons">
+                    <button class="like-btn">❤</button>
+                    <button class="share-btn">↗</button>
+                </div>
+            </div>
+            
+            <h2>Kos Anu</h2>
+            <p class="location">Makassar | Jln. blabla</p>
+            
+            <div class="facilities">
+                <h3>Fasilitas (10+)</h3>
+                <div class="facility-slider">
+                    <div class="facility-images">
+                        <div class="facility-slide">
+                            <img src="image/dapur 1.jpg" alt="Dapur">
+                            <span>Dapur</span>
+                        </div>
+                        <div class="facility-slide">
+                            <img src="image/parkir 1.jpg" alt="Parkiran">
+                            <span>Parkiran</span>
+                        </div>
+                        <div class="facility-slide">
+                            <img src="image/wc 1.jpg" alt="Kamar Mandi">
+                            <span>Kamar Mandi</span>
+                        </div>
+                        <div class="facility-slide">
+                            <img src="image/teras 1.jpg" alt="Teras">
+                            <span>Teras</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="facility-list">
+                    <span class="facility-item">WiFi</span>
+                    <span class="facility-item">AC</span>
+                    <span class="facility-item">Kamar Mandi Dalam</span>
+                    <span class="facility-item">Dapur</span>
+                    <span class="facility-item">Parkir Motor</span>
+                </div>
+            </div>
+
+            <div class="rooms">
+                <h3>Kamar Tersedia (10+)</h3>
+                <p>Tipe kamar standar dengan fasilitas lengkap</p>
+            </div>
+
+            <a href="https://wa.me/62887436262208?text=Halo%20admin%2C%20saya%20tertarik%20dengan%20Kos%20Anu%20yang%20ada%20di%20Jln.%20blabla.%20Apakah%20masih%20tersedia%3F" class="contact-owner" target="_blank">
+                Hubungi Pemilik
+                <img src="image/whatsapp.svg" alt="WhatsApp" class="contact-wa-icon">
+            </a>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- Tambahkan script di bagian bawah body -->
+<script>
+    const images = [
+        'image/dapur 1.jpg',
+        'image/parkir 1.jpg',
+        'image/dao-vi-t-hoang-c1T5BbJe3qw-unsplash.jpg',
+        'image/wc 1.jpg'
+    ];
+    let currentImageIndex = 0;
+    const mainImage = document.getElementById('mainImage');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    let isDragging = false;
+    let startPos = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+
+    // Touch events
+    mainImage.addEventListener('touchstart', dragStart);
+    mainImage.addEventListener('touchmove', drag);
+    mainImage.addEventListener('touchend', dragEnd);
+
+    // Mouse events
+    mainImage.addEventListener('mousedown', dragStart);
+    mainImage.addEventListener('mousemove', drag);
+    mainImage.addEventListener('mouseup', dragEnd);
+    mainImage.addEventListener('mouseleave', dragEnd);
+
+    function dragStart(e) {
+        isDragging = true;
+        startPos = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+        mainImage.style.cursor = 'grabbing';
+    }
+
+    function drag(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        const currentPosition = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+        const diff = currentPosition - startPos;
+
+        if (Math.abs(diff) > 100) {
+            if (diff > 0 && currentImageIndex > 0) {
+                changeImage(-1);
+            } else if (diff < 0 && currentImageIndex < images.length - 1) {
+                changeImage(1);
+            }
+            dragEnd();
+        }
+    }
+
+    function dragEnd() {
+        isDragging = false;
+        mainImage.style.cursor = 'grab';
+    }
+
+    function changeImage(direction) {
+        currentImageIndex = (currentImageIndex + direction + images.length) % images.length;
+        updateImage();
+    }
+
+    function setImage(index) {
+        currentImageIndex = index;
+        updateImage();
+    }
+
+    function updateImage() {
+        mainImage.src = images[currentImageIndex];
+        thumbnails.forEach((thumb, index) => {
+            thumb.classList.toggle('active', index === currentImageIndex);
+        });
+    }
+</script>
