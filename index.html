@@ -13,8 +13,8 @@
                 <img src="image/Screenshot_2025-03-18_010824-removebg-preview.png" alt="Kosan Hub Logo">
             </div>
             <div class="nav-right">
-                <div class="dropdown">
-                    <a href="#" class="nav-link">Cari Apa? ▼</a>
+                <div class="dropdown" id="searchDropdown">
+                    <a class="nav-link">Cari Apa? ▼</a>
                     <div class="dropdown-content">
                         <a href="#">Kos Putra</a>
                         <a href="#">Kos Putri</a>
@@ -171,15 +171,6 @@
             <p>KosanHub adalah platform pencarian kos terpercaya di Makassar. Kami membantu mahasiswa menemukan kos yang sesuai dengan kebutuhan mereka.</p>
         </div>
         <div class="footer-section">
-            <h3>Link Cepat</h3>
-            <ul>
-                <li><a href="#">Beranda</a></li>
-                <li><a href="#">Cari Kos</a></li>
-                <li><a href="#">Daftar Kos</a></li>
-                <li><a href="#">Hubungi Kami</a></li>
-            </ul>
-        </div>
-        <div class="footer-section">
             <h3>Kontak</h3>
             <ul>
                 <li>Email: info@kosanhub.com</li>
@@ -200,3 +191,17 @@
         <p>&copy; 2024 KosanHub. All rights reserved.</p>
     </div>
 </footer>
+
+<script>
+document.getElementById('searchDropdown').addEventListener('click', function(e) {
+    e.preventDefault();
+    this.classList.toggle('active');
+});
+
+document.addEventListener('click', function(e) {
+    const dropdown = document.getElementById('searchDropdown');
+    if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('active');
+    }
+});
+</script>
